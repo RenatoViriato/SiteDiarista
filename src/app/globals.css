@@ -1,0 +1,198 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* ───────────────────────────────────────────────────────────────────────
+   Paleta R&R Casa em Ordem — extraída da própria logo:
+   azul-marinho #0e2058 · dourado #c48318 · brilho dourado #fef196
+   ─────────────────────────────────────────────────────────────────────── */
+@theme {
+  /* Azul-marinho institucional */
+  --color-brand-50: #f4f6fc;
+  --color-brand-100: #e7ecf8;
+  --color-brand-200: #cbd6ee;
+  --color-brand-300: #a3b4dc;
+  --color-brand-400: #6f86c2;
+  --color-brand-500: #46609f;
+  --color-brand-600: #1c2f74;
+  --color-brand-700: #14245e;
+  --color-brand-800: #0e1b4c;
+  --color-brand-900: #0a1438;
+
+  /* Dourado de destaque */
+  --color-gold-50: #fdf9ef;
+  --color-gold-100: #faf0d4;
+  --color-gold-200: #f4e0a5;
+  --color-gold-300: #eccb6c;
+  --color-gold-400: #dfae3c;
+  --color-gold-500: #c48318;
+  --color-gold-600: #a86c0d;
+  --color-gold-700: #855310;
+  --color-gold-800: #6b4313;
+  --color-gold-900: #583813;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  /* Atenção: toda var() precisa existir. Uma var() sem fallback e sem valor
+     definido invalida a declaração inteira de font-family (e o site cai na
+     fonte padrão do navegador). Por isso as variáveis de fonte são declaradas
+     na tag <html>, em src/app/layout.tsx. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-playfair), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 1rem;
+  --background: #ffffff;
+  --foreground: #0e1b4c;
+  --card: #ffffff;
+  --card-foreground: #0e1b4c;
+  --popover: #ffffff;
+  --popover-foreground: #0e1b4c;
+  --primary: #1c2f74;
+  --primary-foreground: #f7f9ff;
+  --secondary: #f4f6fc;
+  --secondary-foreground: #14245e;
+  --muted: #eef1f9;
+  --muted-foreground: #5a678a;
+  --accent: #fdf9ef;
+  --accent-foreground: #855310;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #dde3f2;
+  --input: #dde3f2;
+  --ring: #a86c0d;
+  --chart-1: #1c2f74;
+  --chart-2: #c48318;
+  --chart-3: #46609f;
+  --chart-4: #dfae3c;
+  --chart-5: #0e1b4c;
+  --sidebar: #f8faff;
+  --sidebar-foreground: #0e1b4c;
+  --sidebar-primary: #1c2f74;
+  --sidebar-primary-foreground: #f7f9ff;
+  --sidebar-accent: #f4f6fc;
+  --sidebar-accent-foreground: #14245e;
+  --sidebar-border: #dde3f2;
+  --sidebar-ring: #a86c0d;
+}
+
+.dark {
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.205 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.205 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.922 0 0);
+  --primary-foreground: oklch(0.205 0 0);
+  --secondary: oklch(0.269 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.269 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.269 0 0);
+  --accent-foreground: oklch(0.985 0 0);
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: oklch(1 0 0 / 10%);
+  --input: oklch(1 0 0 / 15%);
+  --ring: oklch(0.556 0 0);
+  --sidebar: oklch(0.205 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.269 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
+  --sidebar-border: oklch(1 0 0 / 10%);
+  --sidebar-ring: oklch(0.556 0 0);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  /* Títulos com a serifada da marca */
+  h1,
+  h2 {
+    @apply font-heading;
+  }
+  ::selection {
+    background: #f4e0a5;
+    color: #0e1b4c;
+  }
+}
+
+@layer utilities {
+  /* Texto com o degradê dourado da logo (usado em destaques sobre o azul) */
+  .gold-gradient-text {
+    background-image: linear-gradient(100deg, #fef196 0%, #dfae3c 42%, #c48318 70%, #f4e0a5 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Filete dourado curto usado abaixo dos rótulos de seção */
+  .gold-rule {
+    background-image: linear-gradient(90deg, #dfae3c, #c48318 60%, rgba(196, 131, 24, 0));
+  }
+}
+
+/* Esconde scrollbar de trilhas horizontais (datas, horários) mantendo o scroll */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Scrollbar fina para listas longas */
+.thin-scrollbar::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+.thin-scrollbar::-webkit-scrollbar-thumb {
+  background: #cbd6ee;
+  border-radius: 9999px;
+}
