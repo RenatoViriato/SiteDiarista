@@ -7,6 +7,7 @@ import {
   Clock,
   Home,
   MapPin,
+  MessageCircle,
   Pencil,
   Phone,
   User,
@@ -20,6 +21,7 @@ import {
   formatDateShort,
   getServiceById,
   getDurationById,
+  WHATSAPP_DISPLAY,
   type BookingData,
 } from "@/lib/agency-data";
 
@@ -27,15 +29,13 @@ interface SummaryStepProps {
   booking: BookingData;
   onBack: () => void;
   onConfirm: () => void;
-  loading: boolean;
 }
 
-/** Etapa 6: resumo da solicitação antes da confirmação final. */
+/** Etapa 6: resumo da solicitação antes do envio pelo WhatsApp. */
 export function SummaryStep({
   booking,
   onBack,
   onConfirm,
-  loading,
 }: SummaryStepProps) {
   const service = getServiceById(booking.serviceId);
   const duration = getDurationById(service, booking.durationId);
@@ -84,7 +84,8 @@ export function SummaryStep({
         Confira seu agendamento
       </h2>
       <p className="mt-1.5 text-sm text-muted-foreground">
-        Revise as informações antes de enviar a solicitação.
+        Revise as informações. Ao confirmar, abrimos o WhatsApp com tudo
+        preenchido para você enviar.
       </p>
 
       <div className="mt-6 overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-lg shadow-brand-900/5">
@@ -157,17 +158,20 @@ export function SummaryStep({
         </div>
       </div>
 
-      <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
-        Valor de referência, sem compromisso: a confirmação final acontece pelo
-        WhatsApp após a análise da agenda, com possibilidade de ajustes se o
-        ambiente precisar de mais tempo.
+      <p className="mt-4 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+        <MessageCircle className="mt-0.5 size-3.5 shrink-0 text-gold-600" />
+        <span>
+          Ao confirmar, abrimos o WhatsApp <strong>{WHATSAPP_DISPLAY}</strong>{" "}
+          com os dados do agendamento. Basta enviar a mensagem — a confirmação
+          final acontece por lá, com possibilidade de ajustes se o ambiente
+          precisar de mais tempo.
+        </span>
       </p>
 
       <StepNav
         onBack={onBack}
         onNext={onConfirm}
-        nextLabel="Confirmar agendamento"
-        loading={loading}
+        nextLabel="Confirmar e enviar no WhatsApp"
       />
     </motion.div>
   );

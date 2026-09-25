@@ -5,6 +5,7 @@
   "scripts": {
     "dev": "next dev -p 3000",
     "build": "next build",
+    "build:github": "node scripts/build-github-pages.mjs",
     "start": "npx --yes serve out -l 3000",
     "preview": "npx --yes serve out -l 3000",
     "sync:root": "node scripts/sync-root.mjs",

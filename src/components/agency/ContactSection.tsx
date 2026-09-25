@@ -1,23 +1,18 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Clock, MapPin, MessageCircle, Phone } from "lucide-react";
+import { Clock, MapPin, MessageCircle } from "lucide-react";
 import { SectionEyebrow } from "@/components/agency/SectionEyebrow";
+import { WHATSAPP_DISPLAY, whatsAppContactLink } from "@/lib/agency-data";
 
 const CONTACT_ITEMS = [
   {
     icon: MessageCircle,
     title: "WhatsApp",
-    value: "(11) 98765-4321",
+    value: WHATSAPP_DISPLAY,
     hint: "Resposta rápida em horário comercial",
-    href: "https://wa.me/5511987654321",
+    href: whatsAppContactLink(),
     destaque: true,
-  },
-  {
-    icon: Phone,
-    title: "Telefone fixo",
-    value: "(11) 4002-8922",
-    hint: "Segunda a sábado, das 8h às 18h",
   },
   {
     icon: Clock,
@@ -28,7 +23,7 @@ const CONTACT_ITEMS = [
   {
     icon: MapPin,
     title: "Área de atendimento",
-    value: "São Paulo e região",
+    value: "Rio de Janeiro e região",
     hint: "Consulte a taxa de deslocamento",
   },
 ];
@@ -53,7 +48,7 @@ export function ContactSection() {
           </p>
         </div>
 
-        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {CONTACT_ITEMS.map((item, index) => {
             const Icon = item.icon;
             const content = (

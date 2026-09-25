@@ -3,7 +3,11 @@
 import { Clock, Mail, MapPin, MessageCircle } from "lucide-react";
 import { Brand } from "@/components/agency/Brand";
 import type { SectionId } from "@/components/agency/types";
-import { SERVICES } from "@/lib/agency-data";
+import {
+  SERVICES,
+  WHATSAPP_DISPLAY,
+  whatsAppContactLink,
+} from "@/lib/agency-data";
 
 interface FooterProps {
   onGoSection: (id: SectionId) => void;
@@ -82,7 +86,14 @@ export function Footer({ onGoSection, onGoBookingWithService }: FooterProps) {
           <ul className="mt-5 space-y-3 text-sm text-brand-100/75">
             <li className="flex items-start gap-2.5">
               <MessageCircle className="mt-0.5 size-4 shrink-0 text-gold-400" />
-              <span>(11) 98765-4321 — WhatsApp</span>
+              <a
+                href={whatsAppContactLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition-colors hover:text-gold-200"
+              >
+                {WHATSAPP_DISPLAY} — WhatsApp
+              </a>
             </li>
             <li className="flex items-start gap-2.5">
               <Mail className="mt-0.5 size-4 shrink-0 text-gold-400" />
@@ -94,7 +105,7 @@ export function Footer({ onGoSection, onGoBookingWithService }: FooterProps) {
             </li>
             <li className="flex items-start gap-2.5">
               <MapPin className="mt-0.5 size-4 shrink-0 text-gold-400" />
-              <span>São Paulo e região metropolitana</span>
+              <span>Rio de Janeiro e região metropolitana</span>
             </li>
           </ul>
         </div>

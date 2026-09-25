@@ -24,7 +24,7 @@ export const metadata: Metadata = {
   title:
     "R&R Casa em Ordem — Limpeza profissional | Sua casa limpa, seu tempo livre",
   description:
-    "Limpeza profissional residencial e comercial: diária, limpeza pesada, pós-obra, apartamento, escritório e passadoria. Agende online em minutos, sem complicação.",
+    "Limpeza profissional residencial e comercial no Rio de Janeiro e região: diária, limpeza pesada, pós-obra, apartamento, escritório e passadoria. Agende online em minutos, sem complicação.",
   keywords: [
     "diarista",
     "limpeza profissional",
@@ -34,6 +34,8 @@ export const metadata: Metadata = {
     "limpeza pós-obra",
     "passadoria",
     "agendamento de limpeza",
+    "diarista Rio de Janeiro",
+    "limpeza Rio de Janeiro",
   ],
   authors: [{ name: "R&R Casa em Ordem" }],
   icons: {

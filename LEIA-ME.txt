@@ -70,6 +70,21 @@ npm run deploy:login   # abre o navegador para autorizar a conta
 A pasta `out/` também pode ser publicada em qualquer host estático: Netlify
 (app.netlify.com/drop), Cloudflare Pages ou GitHub Pages.
 
+#### GitHub Pages (opcional)
+
+O GitHub Pages publica o site em `usuario.github.io/SiteDiarista/`, então esse
+build precisa do prefixo `/SiteDiarista` nos assets:
+
+```bash
+npm run build:github
+```
+
+> ⚠️ **Atenção:** esse prefixo **quebra a Vercel** (e qualquer host que sirva o
+> site na raiz), porque o HTML passa a procurar `/SiteDiarista/_next/...` e
+> recebe 404 — o site fica sem CSS e sem JavaScript. Por isso o prefixo só é
+> aplicado pelo `npm run build:github`. Nunca deixe `basePath`/`assetPrefix`
+> fixos no `next.config.ts`.
+
 > ℹ️ A raiz do projeto também guarda uma **cópia** do site pronto (`index.html`,
 > `404.html`, `_next/`, `_not-found/`, `index.txt`, `__next.*.txt`), para quem
 > publica a pasta do projeto direto na hospedagem. O `npm run build` **não**
@@ -118,11 +133,32 @@ Para testar o build localmente, `npm run start` já sobe a pasta `out/`.
    é no `<html>` que o tema do Tailwind aplica `--default-font-family`, e uma
    `var()` sem valor definido invalida a declaração `font-family` inteira.
 
+### Agendamento pelo WhatsApp
+
+Ao confirmar o agendamento, o site monta uma mensagem com **todos os dados**
+(protocolo, serviço, duração, data, horário, valor estimado, nome, telefone,
+endereço e observações) e abre o WhatsApp da agência já preenchido — o cliente
+só toca em enviar. Como o site é estático, esse é o "envio" real da solicitação.
+
+Para trocar o número que recebe os agendamentos, edite
+`src/lib/agency-data.ts`:
+
+```ts
+export const WHATSAPP_NUMBER = "5521981961695"; // 55 + DDD + número (wa.me)
+export const WHATSAPP_DISPLAY = "(21) 98196-1695"; // como aparece na tela
+```
+
+O mesmo número alimenta o cartão de contato, o rodapé, a página 404 e o botão
+da tela final — não há número escrito à mão nos componentes.
+
+O texto da mensagem fica em `buildWhatsAppMessage()` (mesmo arquivo), com
+asteriscos para negrito, que é a formatação do WhatsApp.
+
 ### Ligando um backend depois
 
-O envio do formulário é simulado em `src/lib/agency-data.ts`, na função
-`submitBooking()` — há um marcador `TODO(backend)` indicando o ponto exato
-para trocar pela chamada real da API quando ela existir.
+O `submitBooking()` em `src/lib/agency-data.ts` continua sendo o ponto de
+integração (`TODO(backend)`) para gravar a solicitação em um banco/API — ele é
+chamado em paralelo ao WhatsApp e hoje apenas simula a resposta.
 
 Como o site é exportado como estático, um backend que precise rodar junto
 exige remover `output: "export"` do `next.config.ts` (ou hospedar a API em
@@ -143,9 +179,10 @@ outro endereço e chamá-la por `fetch`).
 
 ## Contatos exibidos no site
 
-- E-mail: `contato@renatasantos.com.br`
-- WhatsApp exibido: `(11) 98765-4321`
+- WhatsApp (recebe os agendamentos): `(21) 98196-1695`
+- E-mail: `contato@renatasantos.com.br` *(ainda é o e-mail do projeto antigo — trocar)*
 - Atendimento: segunda a sábado, das 8h às 18h
 - Horários de agendamento oferecidos: 08:00 às 17:00 (domingos fechados)
+- Área de atendimento: Rio de Janeiro e região metropolitana
 
 © R&R Casa em Ordem — Todos os direitos reservados.

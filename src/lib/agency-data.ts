@@ -362,7 +362,7 @@ export function formatDateShort(dateISO: string): string {
 
 /* ──────────────────────── Utilitários de contato ─────────────────── */
 
-/** Máscara (11) 98765-4321 */
+/** Máscara (21) 98196-1695 */
 export function maskPhone(value: string): string {
   const digits = value.replace(/\D/g, "").slice(0, 11);
   if (digits.length === 0) return "";
@@ -414,19 +414,84 @@ export function formatBRL(value: number): string {
   }).format(value);
 }
 
-/* ──────────────────── Envio (simulado) do agendamento ────────────── */
+/* ──────────────────── Envio do agendamento (WhatsApp) ────────────── */
 
 /**
- * Simula o envio da solicitação de agendamento.
+ * WhatsApp que recebe as solicitações de agendamento.
+ * Formato internacional: 55 (Brasil) + 21 (DDD) + número.
+ */
+export const WHATSAPP_NUMBER = "5521981961695";
+
+/** O mesmo número pronto para exibir na tela: (21) 98196-1695 */
+export const WHATSAPP_DISPLAY = "(21) 98196-1695";
+
+/** Protocolo determinístico, gerado a partir dos dados do agendamento. */
+export function buildProtocol(data: BookingData): string {
+  const sufixo = String(hashString(JSON.stringify(data)) % 10000).padStart(4, "0");
+  return `RR-${format(new Date(), "yyyyMMdd")}-${sufixo}`;
+}
+
+/**
+ * Mensagem enviada ao WhatsApp da agência com todos os dados do agendamento.
+ * O WhatsApp usa *asteriscos* para negrito e quebras de linha normais.
+ */
+export function buildWhatsAppMessage(
+  data: BookingData,
+  protocol: string
+): string {
+  const service = getServiceById(data.serviceId);
+  const duration = getDurationById(service, data.durationId);
+  const total = calculateTotal(data.serviceId, data.durationId);
+  const { customer } = data;
+
+  const linhas = [
+    "*Nova solicitação de agendamento*",
+    "",
+    `*Protocolo:* ${protocol}`,
+    `*Serviço:* ${service?.name ?? "—"} (${duration?.label ?? "—"})`,
+    `*Data:* ${formatDateLong(data.dateISO)}`,
+    `*Horário:* chegada às ${data.timeSlotId}`,
+    `*Valor estimado:* ${formatBRL(total ?? 0)}`,
+    "",
+    "*Dados do cliente*",
+    `*Nome:* ${customer.name}`,
+    `*Telefone:* ${customer.phone}`,
+    `*Endereço:* ${customer.address}, ${customer.number} — ${customer.neighborhood}`,
+  ];
+
+  if (customer.notes.trim()) {
+    linhas.push(`*Observações:* ${customer.notes.trim()}`);
+  }
+
+  linhas.push("", "Enviado pelo site da R&R Casa em Ordem.");
+
+  return linhas.join("\n");
+}
+
+/** Monta o link do WhatsApp (wa.me) com a mensagem já preenchida. */
+export function whatsAppLink(
+  message: string,
+  phone: string = WHATSAPP_NUMBER
+): string {
+  return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+}
+
+/** Link curto do WhatsApp com uma saudação, usado nos botões de contato. */
+export function whatsAppContactLink(
+  saudacao = "Olá! Gostaria de saber mais sobre a limpeza profissional."
+): string {
+  return whatsAppLink(saudacao);
+}
+
+/**
+ * Simula o envio da solicitação para um backend próprio.
  * TODO(backend): trocar por `fetch("/api/bookings", { method: "POST", body })`.
+ * Hoje o envio real acontece pelo WhatsApp (ver `buildWhatsAppMessage`).
  */
 export async function submitBooking(
   data: BookingData
 ): Promise<BookingConfirmation> {
   await new Promise((resolve) => setTimeout(resolve, 1200));
   const total = calculateTotal(data.serviceId, data.durationId) ?? 0;
-  const protocol = `RS-${format(new Date(), "yyyyMMdd")}-${String(
-    hashString(JSON.stringify(data)) % 10000
-  ).padStart(4, "0")}`;
-  return { protocol, estimatedTotal: total };
+  return { protocol: buildProtocol(data), estimatedTotal: total };
 }

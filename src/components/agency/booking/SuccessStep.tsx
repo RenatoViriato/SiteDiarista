@@ -1,13 +1,14 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CheckCircle2, Home, RotateCcw } from "lucide-react";
+import { ArrowRight, Home, MessageCircle, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   formatBRL,
   formatDateShort,
   getServiceById,
   getDurationById,
+  WHATSAPP_DISPLAY,
   type BookingData,
   type BookingConfirmation,
 } from "@/lib/agency-data";
@@ -15,14 +16,20 @@ import {
 interface SuccessStepProps {
   booking: BookingData;
   confirmation: BookingConfirmation;
+  /** Link wa.me com a mensagem do agendamento já preenchida */
+  whatsAppHref: string;
   onGoHome: () => void;
   onNewBooking: () => void;
 }
 
-/** Tela final: solicitação enviada com protocolo e resumo. */
+/**
+ * Tela final: o site monta a solicitação e abre o WhatsApp da agência com
+ * todos os dados. O envio acontece quando o cliente toca em enviar na conversa.
+ */
 export function SuccessStep({
   booking,
   confirmation,
+  whatsAppHref,
   onGoHome,
   onNewBooking,
 }: SuccessStepProps) {
@@ -44,14 +51,31 @@ export function SuccessStep({
         transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.1 }}
         className="mx-auto grid size-20 place-items-center rounded-full bg-gradient-to-br from-brand-700 to-brand-900 ring-8 ring-gold-100"
       >
-        <CheckCircle2 className="size-11 text-gold-300" strokeWidth={1.8} />
+        <MessageCircle className="size-10 text-gold-300" strokeWidth={1.8} />
       </motion.div>
 
       <h2 className="mt-6 text-2xl font-extrabold tracking-tight text-brand-900 sm:text-3xl">
-        Solicitação de agendamento enviada!
+        Falta só enviar no WhatsApp
       </h2>
       <p className="mt-3 text-base leading-relaxed text-muted-foreground">
-        Em breve entraremos em contato para confirmar seu atendimento.
+        Abrimos o WhatsApp com todos os dados do seu agendamento já
+        preenchidos. Toque em <strong className="text-brand-800">enviar</strong>{" "}
+        na conversa para a R&amp;R receber sua solicitação.
+      </p>
+
+      <a
+        href={whatsAppHref}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-7 inline-flex h-13 w-full items-center justify-center gap-2.5 rounded-xl bg-[#0e6e63] px-7 text-base font-extrabold text-white shadow-xl shadow-[#0e6e63]/25 transition-transform hover:-translate-y-0.5 hover:bg-[#0b5b52] sm:w-auto"
+      >
+        <MessageCircle className="size-5" />
+        Abrir o WhatsApp e enviar
+        <ArrowRight className="size-4.5" />
+      </a>
+
+      <p className="mt-3 text-xs text-muted-foreground">
+        Precisa de ajuda? Chame direto no <strong>{WHATSAPP_DISPLAY}</strong>.
       </p>
 
       <div className="mt-7 rounded-2xl border border-brand-100 bg-white p-5 text-left shadow-lg shadow-brand-900/5">
@@ -96,7 +120,8 @@ export function SuccessStep({
       <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:justify-center">
         <Button
           onClick={onNewBooking}
-          className="h-12 rounded-xl px-6 font-bold shadow-md shadow-brand-900/15"
+          variant="outline"
+          className="h-12 rounded-xl border-brand-200 px-6 font-bold text-brand-700 hover:border-gold-300 hover:bg-gold-50 hover:text-brand-900"
         >
           <RotateCcw className="size-4" />
           Fazer novo agendamento

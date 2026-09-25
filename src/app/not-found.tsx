@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Home as HomeIcon, SearchX } from "lucide-react";
 import { Brand } from "@/components/agency/Brand";
+import { WHATSAPP_DISPLAY, whatsAppContactLink } from "@/lib/agency-data";
 
 export const metadata = {
   title: "Página não encontrada | R&R Casa em Ordem",
@@ -45,7 +46,15 @@ export default function NotFound() {
         </Link>
 
         <p className="mt-7 text-sm text-brand-100/70">
-          Precisa de ajuda? Fale com a gente pelo WhatsApp (11) 98765-4321.
+          Precisa de ajuda?{" "}
+          <a
+            href={whatsAppContactLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-bold text-gold-300 underline underline-offset-4 transition-colors hover:text-gold-200"
+          >
+            Fale no WhatsApp {WHATSAPP_DISPLAY}
+          </a>
         </p>
       </div>
     </main>

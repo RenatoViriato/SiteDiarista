@@ -89,7 +89,7 @@ export function DetailsStep({
             id="customer-phone"
             value={customer.phone}
             onChange={(e) => update("phone", maskPhone(e.target.value))}
-            placeholder="(11) 98765-4321"
+            placeholder="(21) 98888-7777"
             inputMode="tel"
             autoComplete="tel"
             className={inputClass("phone")}
