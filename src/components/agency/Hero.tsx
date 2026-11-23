@@ -179,7 +179,7 @@ export function Hero({ onGoBooking, onGoServices }: HeroProps) {
             <p className="text-xs font-semibold text-muted-foreground">
               Casas limpas este mês
             </p>
-            <p className="text-lg font-extrabold text-brand-700">+380 ✓</p>
+            <p className="text-lg font-extrabold text-brand-700">+150 ✓</p>
           </motion.div>
         </motion.div>
       </div>
