@@ -1,7 +1,6 @@
 "use client";
 
-import { CalendarX2, CalendarDays, Clock } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CalendarX2, Clock } from "lucide-react";
 import { StepNav } from "@/components/agency/booking/StepNav";
 import {
   formatDateShort,
@@ -27,60 +26,26 @@ export function TimeStep({
   onBack,
   onNext,
 }: TimeStepProps) {
-  const slots = TIME_SLOTS.map((slot) => {
-    const available = isSlotAvailable(dateISO, slot.id);
-    const past = isSlotInPast(dateISO, slot.id);
-    return {
-      ...slot,
-      disabled: !available || past,
-      reason: past ? "Horário já passou" : "Horário indisponível",
-    };
-  });
-
-  const hasFreeSlot = slots.some((slot) => !slot.disabled);
-
   return (
     <div>
-      <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-brand-900 sm:text-2xl">
-        <Clock className="size-5 text-gold-600" />
+      <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+        <Clock className="size-5 text-brand-600" />
         Escolha o horário
       </h2>
       <p className="mt-1.5 text-sm text-muted-foreground">
-        Agenda de {formatDateShort(dateISO)}. Os horários de chegada vão das 8h
-        às 17h e os já ocupados aparecem desabilitados.
+        Agenda de {formatDateShort(dateISO)}. Horários já ocupados aparecem
+        desabilitados.
       </p>
-
-      {!hasFreeSlot && (
-        <div
-          role="status"
-          className="mt-6 rounded-2xl border border-gold-300 bg-gold-50 p-5 text-sm text-gold-900"
-        >
-          <p className="font-extrabold">
-            Não há horários livres nesta data.
-          </p>
-          <p className="mt-1 leading-relaxed">
-            {isSlotInPast(dateISO, "08:00")
-              ? "Os horários de hoje já passaram. Escolha outro dia para continuar."
-              : "A agenda deste dia está cheia. Escolha outro dia para continuar."}
-          </p>
-          <Button
-            type="button"
-            variant="outline"
-            onClick={onBack}
-            className="mt-4 h-10 rounded-xl border-gold-300 bg-white px-4 font-bold text-gold-800 hover:bg-gold-100 hover:text-gold-900"
-          >
-            <CalendarDays className="size-4" />
-            Escolher outra data
-          </Button>
-        </div>
-      )}
 
       <div
         role="radiogroup"
         aria-label="Horários disponíveis"
         className="mt-6 grid grid-cols-3 gap-2.5 sm:grid-cols-4 md:grid-cols-5"
       >
-        {slots.map((slot) => {
+        {TIME_SLOTS.map((slot) => {
+          const available = isSlotAvailable(dateISO, slot.id);
+          const past = isSlotInPast(dateISO, slot.id);
+          const disabled = !available || past;
           const selected = slot.id === selectedSlotId;
 
           return (
@@ -89,17 +54,17 @@ export function TimeStep({
               type="button"
               role="radio"
               aria-checked={selected}
-              disabled={slot.disabled}
+              disabled={disabled}
               onClick={() => onSelect(slot.id)}
               className={cn(
                 "grid h-12 place-items-center rounded-xl border text-sm font-bold transition-all",
-                slot.disabled
-                  ? "cursor-not-allowed border-brand-100 bg-brand-50/60 text-brand-200 line-through"
+                disabled
+                  ? "cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300 line-through"
                   : selected
-                    ? "border-brand-700 bg-brand-700 text-white shadow-md shadow-brand-900/25"
-                    : "border-brand-100 bg-white text-brand-800 hover:border-gold-400 hover:bg-gold-50"
+                    ? "border-brand-600 bg-brand-600 text-white shadow-md shadow-brand-600/25"
+                    : "border-slate-200 bg-white text-slate-700 hover:border-brand-400 hover:bg-brand-50"
               )}
-              title={slot.disabled ? slot.reason : undefined}
+              title={past ? "Horário já passou" : "Indisponível"}
             >
               {slot.label}
             </button>

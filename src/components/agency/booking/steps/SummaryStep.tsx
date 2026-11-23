@@ -7,7 +7,6 @@ import {
   Clock,
   Home,
   MapPin,
-  MessageCircle,
   Pencil,
   Phone,
   User,
@@ -21,7 +20,6 @@ import {
   formatDateShort,
   getServiceById,
   getDurationById,
-  WHATSAPP_DISPLAY,
   type BookingData,
 } from "@/lib/agency-data";
 
@@ -29,13 +27,15 @@ interface SummaryStepProps {
   booking: BookingData;
   onBack: () => void;
   onConfirm: () => void;
+  loading: boolean;
 }
 
-/** Etapa 6: resumo da solicitação antes do envio pelo WhatsApp. */
+/** Etapa 6: resumo da solicitação antes da confirmação final. */
 export function SummaryStep({
   booking,
   onBack,
   onConfirm,
+  loading,
 }: SummaryStepProps) {
   const service = getServiceById(booking.serviceId);
   const duration = getDurationById(service, booking.durationId);
@@ -55,7 +55,7 @@ export function SummaryStep({
     {
       icon: Clock,
       label: "Horário",
-      value: `Chegada às ${booking.timeSlotId} · ${formatDateShort(booking.dateISO)}`,
+      value: `${booking.timeSlotId} · ${formatDateShort(booking.dateISO)} chegada`,
     },
     {
       icon: User,
@@ -80,17 +80,16 @@ export function SummaryStep({
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.35, ease: "easeOut" }}
     >
-      <h2 className="text-xl font-extrabold tracking-tight text-brand-900 sm:text-2xl">
+      <h2 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
         Confira seu agendamento
       </h2>
       <p className="mt-1.5 text-sm text-muted-foreground">
-        Revise as informações. Ao confirmar, abrimos o WhatsApp com tudo
-        preenchido para você enviar.
+        Revise as informações antes de enviar a solicitação.
       </p>
 
-      <div className="mt-6 overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-lg shadow-brand-900/5">
-        <div className="bg-gradient-to-r from-brand-800 to-brand-700 px-5 py-4">
-          <p className="text-xs font-extrabold uppercase tracking-wider text-gold-200">
+      <div className="mt-6 overflow-hidden rounded-2xl border border-brand-100 bg-white shadow-sm">
+        <div className="bg-gradient-to-r from-brand-50 to-brand-100 px-5 py-4">
+          <p className="text-xs font-extrabold uppercase tracking-wider text-brand-700">
             Resumo da solicitação
           </p>
         </div>
@@ -101,35 +100,35 @@ export function SummaryStep({
             return (
               <li key={row.label}>
                 <div className="flex items-start gap-3.5 py-3.5">
-                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700 ring-1 ring-brand-100">
+                  <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600">
                     <Icon className="size-4" />
                   </span>
                   <div className="min-w-0">
                     <p className="text-[11px] font-extrabold uppercase tracking-wide text-muted-foreground">
                       {row.label}
                     </p>
-                    <p className="mt-0.5 break-words text-sm font-bold text-brand-900">
+                    <p className="mt-0.5 break-words text-sm font-bold text-slate-800">
                       {row.value}
                     </p>
                   </div>
                 </div>
-                {index < rows.length - 1 && <Separator className="bg-brand-100" />}
+                {index < rows.length - 1 && <Separator className="bg-brand-50" />}
               </li>
             );
           })}
 
           {customer.notes.trim() && (
             <li>
-              <Separator className="bg-brand-100" />
+              <Separator className="bg-brand-50" />
               <div className="flex items-start gap-3.5 py-3.5">
-                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-700 ring-1 ring-brand-100">
+                <span className="grid size-9 shrink-0 place-items-center rounded-lg bg-brand-50 text-brand-600">
                   <BadgeInfo className="size-4" />
                 </span>
                 <div className="min-w-0">
                   <p className="text-[11px] font-extrabold uppercase tracking-wide text-muted-foreground">
                     Observações
                   </p>
-                  <p className="mt-0.5 break-words text-sm font-bold text-brand-900">
+                  <p className="mt-0.5 break-words text-sm font-bold text-slate-800">
                     {customer.notes}
                   </p>
                 </div>
@@ -138,19 +137,19 @@ export function SummaryStep({
           )}
         </ul>
 
-        <div className="flex items-center justify-between gap-4 border-t border-gold-200 bg-gold-50 px-5 py-4">
+        <div className="flex items-center justify-between gap-4 border-t border-brand-100 bg-brand-50/60 px-5 py-4">
           <div>
-            <p className="text-[11px] font-extrabold uppercase tracking-wide text-gold-700">
+            <p className="text-[11px] font-extrabold uppercase tracking-wide text-muted-foreground">
               Valor estimado
             </p>
-            <p className="text-2xl font-extrabold text-brand-900">
+            <p className="text-2xl font-extrabold text-slate-900">
               {formatBRL(duration?.price ?? 0)}
             </p>
           </div>
           <Button
             variant="outline"
             onClick={onBack}
-            className="h-10 shrink-0 rounded-xl border-brand-200 font-bold text-brand-700 hover:border-gold-300 hover:bg-gold-50 hover:text-brand-900"
+            className="h-10 shrink-0 rounded-xl border-brand-200 font-bold text-brand-700 hover:bg-brand-50 hover:text-brand-700"
           >
             <Pencil className="size-3.5" />
             Editar dados
@@ -158,20 +157,17 @@ export function SummaryStep({
         </div>
       </div>
 
-      <p className="mt-4 flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
-        <MessageCircle className="mt-0.5 size-3.5 shrink-0 text-gold-600" />
-        <span>
-          Ao confirmar, abrimos o WhatsApp <strong>{WHATSAPP_DISPLAY}</strong>{" "}
-          com os dados do agendamento. Basta enviar a mensagem — a confirmação
-          final acontece por lá, com possibilidade de ajustes se o ambiente
-          precisar de mais tempo.
-        </span>
+      <p className="mt-4 text-xs leading-relaxed text-muted-foreground">
+        Valor de referência, sem compromisso: a confirmação final acontece pelo
+        WhatsApp após a análise da agenda, com possibilidade de ajustes se o
+        ambiente precisar de mais tempo.
       </p>
 
       <StepNav
         onBack={onBack}
         onNext={onConfirm}
-        nextLabel="Confirmar e enviar no WhatsApp"
+        nextLabel="Confirmar agendamento"
+        loading={loading}
       />
     </motion.div>
   );

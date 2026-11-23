@@ -17,10 +17,10 @@ export function StepIndicator({ current, onStepClick }: StepIndicatorProps) {
       {/* Mobile: barra compacta */}
       <div className="md:hidden">
         <div className="flex items-baseline justify-between">
-          <p className="text-sm font-extrabold text-brand-900">
+          <p className="text-sm font-extrabold text-slate-900">
             Etapa {current + 1} de {BOOKING_STEPS.length}
           </p>
-          <p className="text-sm font-bold text-gold-700">
+          <p className="text-sm font-bold text-brand-700">
             {BOOKING_STEPS[current]?.label}
           </p>
         </div>
@@ -32,7 +32,7 @@ export function StepIndicator({ current, onStepClick }: StepIndicatorProps) {
           aria-valuenow={current + 1}
         >
           <div
-            className="h-full rounded-full bg-gradient-to-r from-gold-300 to-gold-500 transition-all duration-300"
+            className="h-full rounded-full bg-gradient-to-r from-brand-500 to-brand-400 transition-all duration-300"
             style={{
               width: `${((current + 1) / BOOKING_STEPS.length) * 100}%`,
             }}
@@ -64,12 +64,13 @@ export function StepIndicator({ current, onStepClick }: StepIndicatorProps) {
                 <span
                   className={cn(
                     "grid size-8 shrink-0 place-items-center rounded-full border text-sm font-extrabold transition-colors",
-                    isDone && "border-brand-700 bg-brand-700 text-gold-200",
+                    isDone &&
+                      "border-brand-600 bg-brand-600 text-white",
                     isCurrent &&
-                      "border-gold-400 bg-white text-brand-800 ring-4 ring-gold-100",
+                      "border-brand-600 bg-white text-brand-700 ring-4 ring-brand-100",
                     !isDone &&
                       !isCurrent &&
-                      "border-brand-200 bg-white text-brand-300"
+                      "border-slate-200 bg-white text-slate-400"
                   )}
                 >
                   {isDone ? <Check className="size-4" /> : index + 1}
@@ -77,7 +78,9 @@ export function StepIndicator({ current, onStepClick }: StepIndicatorProps) {
                 <span
                   className={cn(
                     "hidden text-sm font-bold whitespace-nowrap lg:block",
-                    isDone || isCurrent ? "text-brand-900" : "text-brand-300"
+                    isDone || isCurrent
+                      ? "text-slate-800"
+                      : "text-slate-400"
                   )}
                 >
                   {step.label}
@@ -88,7 +91,7 @@ export function StepIndicator({ current, onStepClick }: StepIndicatorProps) {
                   aria-hidden="true"
                   className={cn(
                     "mx-1 h-0.5 flex-1 rounded-full",
-                    index < current ? "bg-brand-700" : "bg-brand-100"
+                    index < current ? "bg-brand-600" : "bg-brand-100"
                   )}
                 />
               )}

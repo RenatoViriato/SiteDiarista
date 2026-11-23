@@ -44,9 +44,7 @@ const eslintConfig = [...nextCoreWebVitals, ...nextTypescript, {
     "no-useless-escape": "off",
   },
 }, {
-  // `_next/**` é a cópia da exportação estática que fica na raiz do projeto
-  // (equivalente a `out/**`); sem isso o lint acusa erros dentro do bundle.
-  ignores: ["node_modules/**", ".next/**", "out/**", "_next/**", "build/**", "next-env.d.ts", "examples/**", "skills", ".verify/**", ".npm-cache/**", ".tools/**", ".design/**"]
+  ignores: ["node_modules/**", ".next/**", "out/**", "build/**", "next-env.d.ts", "examples/**", "skills"]
 }];
 
 export default eslintConfig;

@@ -1,0 +1,12 @@
+# Arquivos enviados ao Vercel: só o necessário para o build do Next.js
+download
+skills
+upload
+scripts
+out
+db
+*.zip
+worklog.md
+dev.log
+server.log
+.vercel

@@ -2,31 +2,34 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 
 interface BrandProps {
-  /** "md" no cabeçalho, "lg" no rodapé */
-  size?: "md" | "lg";
+  /** Tamanho do logotipo */
+  size?: "sm" | "md";
   className?: string;
 }
 
-/**
- * Logo oficial da R&R Casa em Ordem.
- *
- * Usa o arquivo com cantos transparentes (`icon-512.png`), então o selo fica
- * redondo tanto sobre o branco do cabeçalho quanto sobre o azul do rodapé.
- * O próprio selo já traz o nome da marca, por isso não repetimos o nome em texto.
- */
+/** Logotipo da agência: marca (casa com bolhas) + nome. Reutilizado no header e no footer. */
 export function Brand({ size = "md", className }: BrandProps) {
+  const logoSize = size === "md" ? 44 : 38;
+  const title = size === "md" ? "text-xl" : "text-lg";
+
   return (
-    <Image
-      src="/icon-512.png"
-      alt="R&R Casa em Ordem — limpeza profissional"
-      width={512}
-      height={512}
-      priority
-      className={cn(
-        "shrink-0 object-contain",
-        size === "lg" ? "size-24" : "size-14 sm:size-16",
-        className
-      )}
-    />
+    <span className={cn("inline-flex items-center gap-2.5", className)}>
+      <Image
+        src="/logo-renata.png"
+        alt="Logo R&R Casa em Ordem: estrela dourada com casinha azul-marinho"
+        width={logoSize}
+        height={logoSize}
+        priority
+        className={cn("object-contain", size === "md" ? "size-11" : "size-9")}
+      />
+      <span className="leading-tight">
+        <span className={cn("block font-extrabold tracking-tight whitespace-nowrap", title)}>
+          R<span className="text-brand-500">&amp;</span>R
+        </span>
+        <span className="block text-[11px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+          Casa em Ordem
+        </span>
+      </span>
+    </span>
   );
 }

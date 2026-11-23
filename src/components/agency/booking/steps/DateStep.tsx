@@ -23,13 +23,12 @@ export function DateStep({
 
   return (
     <div>
-      <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-brand-900 sm:text-2xl">
-        <CalendarDays className="size-5 text-gold-600" />
+      <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+        <CalendarDays className="size-5 text-brand-600" />
         Que dia você quer o serviço?
       </h2>
       <p className="mt-1.5 text-sm text-muted-foreground">
-        Escolha uma data nos próximos 14 dias. Atendemos de segunda a sábado,
-        com chegada entre 8h e 17h.
+        Escolha uma data nos próximos 14 dias. Atendemos de segunda a sábado.
       </p>
 
       <div
@@ -52,20 +51,20 @@ export function DateStep({
               className={cn(
                 "flex w-16 shrink-0 snap-start flex-col items-center rounded-2xl border px-2 py-3 transition-all sm:w-auto",
                 disabled
-                  ? "cursor-not-allowed border-brand-100 bg-brand-50/60 text-brand-200"
+                  ? "cursor-not-allowed border-slate-100 bg-slate-50 text-slate-300"
                   : selected
-                    ? "border-brand-700 bg-brand-700 text-white shadow-md shadow-brand-900/25"
-                    : "border-brand-100 bg-white text-brand-800 hover:border-gold-400 hover:bg-gold-50"
+                    ? "border-brand-600 bg-brand-600 text-white shadow-md shadow-brand-600/25"
+                    : "border-slate-200 bg-white text-slate-700 hover:border-brand-400 hover:bg-brand-50"
               )}
             >
               <span
                 className={cn(
                   "text-[10px] font-extrabold uppercase tracking-wider",
                   disabled
-                    ? "text-brand-200"
+                    ? "text-slate-300"
                     : selected
-                      ? "text-gold-200"
-                      : "text-brand-400"
+                      ? "text-brand-100"
+                      : "text-slate-400"
                 )}
               >
                 {day.isToday ? "Hoje" : day.weekday}
@@ -77,10 +76,10 @@ export function DateStep({
                 className={cn(
                   "mt-1 text-[10px] font-bold uppercase",
                   disabled
-                    ? "text-brand-200"
+                    ? "text-slate-300"
                     : selected
-                      ? "text-gold-200"
-                      : "text-brand-400"
+                      ? "text-brand-100"
+                      : "text-slate-400"
                 )}
               >
                 {disabled ? "Fechado" : day.month}

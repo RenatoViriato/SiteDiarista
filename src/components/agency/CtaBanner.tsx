@@ -8,52 +8,43 @@ interface CtaBannerProps {
   onGoBooking: () => void;
 }
 
-/** Faixa de chamada para ação: azul-marinho profundo com brilho dourado. */
+/** Faixa de chamada para ação entre as seções. */
 export function CtaBanner({ onGoBooking }: CtaBannerProps) {
   return (
-    <section
-      aria-label="Chamada para agendar"
-      className="mx-auto max-w-6xl px-4 pb-16 sm:px-6"
-    >
+    <section aria-label="Chamada para agendar" className="mx-auto max-w-6xl px-4 pb-16 sm:px-6">
       <motion.div
         initial={{ opacity: 0, y: 18 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
         transition={{ duration: 0.45, ease: "easeOut" }}
-        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-700 via-brand-800 to-brand-900 px-6 py-14 text-center shadow-2xl shadow-brand-900/25 sm:px-12"
+        className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-brand-800 via-brand-700 to-brand-600 px-6 py-12 text-center shadow-xl shadow-brand-600/20 sm:px-12"
       >
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -right-16 -top-20 size-72 rounded-full bg-gold-400/25 blur-[90px]"
+          className="pointer-events-none absolute -right-10 -top-14 size-56 rounded-full bg-white/10 blur-2xl"
         />
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute -bottom-24 -left-16 size-72 rounded-full bg-brand-400/30 blur-[90px]"
-        />
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-gold-400/70 to-transparent"
+          className="pointer-events-none absolute -bottom-16 -left-8 size-56 rounded-full bg-brand-gold-soft/30 blur-2xl"
         />
 
-        <span className="relative inline-flex items-center gap-2 rounded-full border border-gold-400/35 bg-white/10 px-3.5 py-1.5 text-xs font-bold text-gold-200 backdrop-blur">
+        <span className="inline-flex items-center gap-2 rounded-full bg-white/15 px-3.5 py-1.5 text-xs font-bold text-white backdrop-blur">
           <Sparkles className="size-3.5" />
           Sem compromisso — a confirmação é gratuita
         </span>
-
-        <h2 className="relative mt-5 text-3xl font-extrabold tracking-tight text-white sm:text-4xl">
+        <h2 className="mt-4 text-2xl font-extrabold tracking-tight text-white sm:text-3xl">
           Pronto para deixar a limpeza com a gente?
         </h2>
-        <p className="relative mx-auto mt-4 max-w-xl text-sm leading-relaxed text-brand-100/85 sm:text-base">
-          Faça sua solicitação agora e receba a confirmação da profissional no
-          seu WhatsApp. Simples assim.
+        <p className="mx-auto mt-3 max-w-xl text-sm leading-relaxed text-brand-50 sm:text-base">
+          Faça sua solicitação agora e receba a confirmação da diarista no seu
+          WhatsApp. Simples assim.
         </p>
-
         <Button
           onClick={onGoBooking}
           size="lg"
-          className="relative mt-8 h-13 rounded-xl border-0 bg-gradient-to-r from-gold-300 via-gold-400 to-gold-500 px-8 text-base font-extrabold text-brand-900 shadow-xl shadow-black/25 transition-transform hover:-translate-y-0.5 hover:from-gold-200 hover:to-gold-400"
+          className="mt-7 h-12 rounded-xl bg-white px-8 text-base font-extrabold text-brand-700 shadow-lg transition-transform hover:-translate-y-0.5 hover:bg-white"
         >
-          Agendar uma limpeza
+          Agendar uma diarista
           <ArrowRight className="size-4.5" />
         </Button>
       </motion.div>

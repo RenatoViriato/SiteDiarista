@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { StepIndicator } from "@/components/agency/booking/StepIndicator";
 import { ServiceStep } from "@/components/agency/booking/steps/ServiceStep";
@@ -17,15 +17,12 @@ import {
   type BookingState,
 } from "@/components/agency/booking/types";
 import {
-  buildProtocol,
-  buildWhatsAppMessage,
   calculateTotal,
   formatBRL,
   formatDateShort,
   getServiceById,
   getDurationById,
   submitBooking,
-  whatsAppLink,
   type BookingConfirmation,
   type BookingData,
   type CustomerData,
@@ -56,16 +53,13 @@ export function BookingFlow({
   onGoHome,
   onRestart,
 }: BookingFlowProps) {
-  // Se o serviço pré-selecionado não existir, começa na escolha de serviço
-  // (evita abrir a etapa de duração sem serviço e travar a tela vazia).
-  const hasInitialService = Boolean(getServiceById(initialServiceId ?? null));
-  const [step, setStep] = useState(
-    hasInitialService ? STEP_DURATION : STEP_SERVICE
-  );
+  const [step, setStep] = useState(initialServiceId ? STEP_DURATION : STEP_SERVICE);
   const [state, setState] = useState<BookingState>(() => ({
     ...INITIAL_BOOKING_STATE,
     serviceId: initialServiceId ?? null,
   }));
+  const [submitting, setSubmitting] = useState(false);
+  const [submissionError, setSubmissionError] = useState<string | null>(null);
   const [confirmation, setConfirmation] = useState<BookingConfirmation | null>(
     null
   );
@@ -89,43 +83,37 @@ export function BookingFlow({
     setState((prev) => ({ ...prev, ...patch }));
 
   const handleGoBackHome = () => {
+    if (window.history.length > 1) {
+      // Mantém comportamento esperado de "voltar" dentro do app
+    }
     onGoHome();
   };
 
-  /**
-   * Confirma o agendamento: gera o protocolo, abre o WhatsApp da agência com
-   * todos os dados já preenchidos e mostra a tela de sucesso.
-   *
-   * O `window.open` é chamado direto no clique — sem `await` antes — porque o
-   * navegador só permite abrir a janela dentro do gesto do usuário.
-   */
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (!state.serviceId || !state.durationId || !state.dateISO || !state.timeSlotId)
       return;
-
-    const payload: BookingData = {
-      serviceId: state.serviceId,
-      durationId: state.durationId,
-      dateISO: state.dateISO,
-      timeSlotId: state.timeSlotId,
-      customer: state.customer,
-    };
-
-    const protocol = buildProtocol(payload);
-    setConfirmation({
-      protocol,
-      estimatedTotal: calculateTotal(state.serviceId, state.durationId) ?? 0,
-    });
-
-    window.open(
-      whatsAppLink(buildWhatsAppMessage(payload, protocol)),
-      "_blank",
-      "noopener,noreferrer"
-    );
-    window.scrollTo({ top: 0, behavior: "smooth" });
-
-    // Ponto de integração com o backend futuro (não bloqueia a tela).
-    void submitBooking(payload).catch(() => {});
+    setSubmitting(true);
+    setSubmissionError(null);
+    try {
+      const payload: BookingData = {
+        serviceId: state.serviceId,
+        durationId: state.durationId,
+        dateISO: state.dateISO,
+        timeSlotId: state.timeSlotId,
+        customer: state.customer,
+      };
+      const result = await submitBooking(payload);
+      setConfirmation(result);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    } catch (error) {
+      setSubmissionError(
+        error instanceof Error
+          ? error.message
+          : "Não foi possível enviar o agendamento. Tente novamente."
+      );
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   const handleCustomerChange = (customer: CustomerData) =>
@@ -133,22 +121,19 @@ export function BookingFlow({
 
   /* ──────────────── Tela final de sucesso ──────────────── */
   if (confirmation && state.serviceId && state.durationId && state.dateISO && state.timeSlotId) {
-    const payload: BookingData = {
-      serviceId: state.serviceId,
-      durationId: state.durationId,
-      dateISO: state.dateISO,
-      timeSlotId: state.timeSlotId,
-      customer: state.customer,
-    };
-
     return (
       <section aria-label="Agendamento confirmado" className="mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20">
         <SuccessStep
-          booking={payload}
+          booking={
+            {
+              serviceId: state.serviceId,
+              durationId: state.durationId,
+              dateISO: state.dateISO,
+              timeSlotId: state.timeSlotId,
+              customer: state.customer,
+            } satisfies BookingData
+          }
           confirmation={confirmation}
-          whatsAppHref={whatsAppLink(
-            buildWhatsAppMessage(payload, confirmation.protocol)
-          )}
           onGoHome={handleGoBackHome}
           onNewBooking={onRestart}
         />
@@ -163,13 +148,13 @@ export function BookingFlow({
         <Button
           variant="ghost"
           onClick={handleGoBackHome}
-          className="-ml-2 h-9 rounded-lg px-2 font-bold text-brand-700 hover:bg-brand-50 hover:text-brand-900"
+          className="-ml-2 h-9 rounded-lg px-2 font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-800"
         >
           <ArrowLeft className="size-4" />
           Início
         </Button>
         {estimatedTotal !== undefined && (
-          <p className="rounded-full border border-gold-200 bg-gold-50 px-4 py-1.5 text-sm font-extrabold text-gold-800">
+          <p className="rounded-full bg-brand-50 px-4 py-1.5 text-sm font-extrabold text-brand-700">
             Valor estimado: {formatBRL(estimatedTotal)}
           </p>
         )}
@@ -192,7 +177,7 @@ export function BookingFlow({
         </ul>
       )}
 
-      <div className="mt-6 rounded-3xl border border-brand-100 bg-white p-5 shadow-lg shadow-brand-900/5 sm:p-8">
+      <div className="mt-6 rounded-3xl border border-brand-100 bg-white p-5 shadow-sm shadow-brand-900/5 sm:p-8">
         <AnimatePresence mode="wait">
           <motion.div
             key={step}
@@ -266,11 +251,24 @@ export function BookingFlow({
                   }
                   onBack={() => setStep(STEP_DETAILS)}
                   onConfirm={handleConfirm}
+                  loading={submitting}
                 />
               )}
           </motion.div>
         </AnimatePresence>
       </div>
+
+      {submitting && (
+        <p className="mt-4 flex items-center justify-center gap-2 text-sm font-semibold text-brand-700" role="status">
+          <Loader2 className="size-4 animate-spin" />
+          Enviando sua solicitação...
+        </p>
+      )}
+      {submissionError && (
+        <p className="mt-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-center text-sm font-bold text-red-700" role="alert">
+          {submissionError}
+        </p>
+      )}
     </section>
   );
 }

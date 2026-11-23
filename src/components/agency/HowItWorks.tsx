@@ -8,7 +8,6 @@ import {
   MousePointerClick,
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { SectionEyebrow } from "@/components/agency/SectionEyebrow";
 
 interface Step {
   icon: LucideIcon;
@@ -27,7 +26,7 @@ const STEPS: Step[] = [
     icon: CalendarClock,
     title: "Selecione data e horário",
     description:
-      "Veja os horários disponíveis na agenda e escolha o melhor dia para receber a profissional.",
+      "Veja os horários disponíveis na agenda e escolha o melhor dia para receber a diarista.",
   },
   {
     icon: ClipboardList,
@@ -39,7 +38,7 @@ const STEPS: Step[] = [
     icon: CheckCircle2,
     title: "Confirme e pronto",
     description:
-      "Nossa equipe confirma tudo pelo WhatsApp e a profissional chega no dia e hora combinados.",
+      "Nossa equipe confirma tudo pelo WhatsApp e a diarista chega no dia e hora combinados, no horário.",
   },
 ];
 
@@ -49,20 +48,22 @@ export function HowItWorks() {
     <section
       id="como-funciona"
       aria-label="Como funciona o agendamento"
-      className="scroll-mt-20 mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:py-24"
+      className="scroll-mt-20 mx-auto max-w-6xl px-4 py-14 sm:px-6 lg:py-20"
     >
       <div className="mx-auto max-w-2xl text-center">
-        <SectionEyebrow>Como funciona</SectionEyebrow>
-        <h2 className="mt-4 text-3xl font-extrabold tracking-tight text-brand-900 sm:text-4xl">
+        <span className="text-xs font-extrabold uppercase tracking-[0.18em] text-brand-600">
+          Como funciona
+        </span>
+        <h2 className="mt-2 text-2xl font-extrabold tracking-tight text-slate-900 sm:text-3xl">
           Agendar leva menos de 3 minutos
         </h2>
-        <p className="mt-4 text-base leading-relaxed text-muted-foreground">
+        <p className="mt-3 text-base leading-relaxed text-muted-foreground">
           Sem cadastro complicado e sem compromisso: você pede a solicitação e
           nós confirmamos a disponibilidade.
         </p>
       </div>
 
-      <ol className="relative mt-14 grid gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
+      <ol className="relative mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
         {STEPS.map((step, index) => {
           const Icon = step.icon;
           return (
@@ -78,19 +79,19 @@ export function HowItWorks() {
               {index < STEPS.length - 1 && (
                 <span
                   aria-hidden="true"
-                  className="absolute left-[calc(50%+2.4rem)] top-7 hidden w-[calc(100%-4.8rem)] border-t-2 border-dashed border-gold-300 lg:block"
+                  className="absolute left-[calc(50%+2.4rem)] top-7 hidden w-[calc(100%-4.8rem)] border-t-2 border-dashed border-brand-200 lg:block"
                 />
               )}
               <div className="flex flex-col items-center text-center">
                 <div className="relative">
-                  <span className="grid size-14 place-items-center rounded-2xl border border-brand-100 bg-white text-brand-700 shadow-sm">
+                  <span className="grid size-14 place-items-center rounded-2xl border border-brand-100 bg-white text-brand-600 shadow-sm">
                     <Icon className="size-6" strokeWidth={1.9} />
                   </span>
-                  <span className="absolute -right-2 -top-2 grid size-6 place-items-center rounded-full bg-gradient-to-br from-gold-300 to-gold-500 text-[11px] font-extrabold text-brand-900 shadow-md shadow-gold-500/30">
+                  <span className="absolute -right-2 -top-2 grid size-6 place-items-center rounded-full bg-brand-600 text-[11px] font-extrabold text-white shadow-sm">
                     {index + 1}
                   </span>
                 </div>
-                <h3 className="mt-4 text-base font-extrabold text-brand-900">
+                <h3 className="mt-4 text-base font-extrabold text-slate-900">
                   {step.title}
                 </h3>
                 <p className="mt-2 max-w-xs text-sm leading-relaxed text-muted-foreground">

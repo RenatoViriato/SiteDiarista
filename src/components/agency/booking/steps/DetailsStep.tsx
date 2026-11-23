@@ -52,8 +52,8 @@ export function DetailsStep({
 
   return (
     <div>
-      <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-brand-900 sm:text-2xl">
-        <User className="size-5 text-gold-600" />
+      <h2 className="flex items-center gap-2 text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
+        <User className="size-5 text-brand-600" />
         Seus dados
       </h2>
       <p className="mt-1.5 text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ export function DetailsStep({
             id="customer-phone"
             value={customer.phone}
             onChange={(e) => update("phone", maskPhone(e.target.value))}
-            placeholder="(21) 98888-7777"
+            placeholder="(21) 97189-6013"
             inputMode="tel"
             autoComplete="tel"
             className={inputClass("phone")}
@@ -108,8 +108,8 @@ export function DetailsStep({
       </div>
 
       <div className="mt-6">
-        <h3 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-brand-800">
-          <MapPin className="size-4 text-gold-600" />
+        <h3 className="flex items-center gap-2 text-sm font-extrabold uppercase tracking-wide text-slate-700">
+          <MapPin className="size-4 text-brand-600" />
           Endereço do atendimento
         </h3>
 
@@ -181,7 +181,7 @@ export function DetailsStep({
           htmlFor="customer-notes"
           className="flex items-center gap-2 font-bold"
         >
-          <ClipboardList className="size-4 text-gold-600" />
+          <ClipboardList className="size-4 text-brand-600" />
           Observações <span className="text-xs font-medium text-muted-foreground">(opcional)</span>
         </Label>
         <Textarea

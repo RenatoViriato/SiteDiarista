@@ -95,14 +95,12 @@ function Carousel({
 
   React.useEffect(() => {
     if (!api) return
-    // Padrão do shadcn/ui: sincroniza o índice inicial com o embla. O lint
-    // react-hooks/set-state-in-effect não distingue o callback do consumidor.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    onSelect(api)
     api.on("reInit", onSelect)
     api.on("select", onSelect)
+    const frame = window.requestAnimationFrame(() => onSelect(api))
 
     return () => {
+      window.cancelAnimationFrame(frame)
       api?.off("select", onSelect)
     }
   }, [api, onSelect])

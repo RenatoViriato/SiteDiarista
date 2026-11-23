@@ -30,7 +30,7 @@ export function StepNav({
           variant="ghost"
           onClick={onBack}
           disabled={loading}
-          className="h-11 rounded-xl px-4 font-bold text-brand-700 hover:bg-brand-50 hover:text-brand-900"
+          className="h-11 rounded-xl px-4 font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-800"
         >
           <ArrowLeft className="size-4" />
           {backLabel}

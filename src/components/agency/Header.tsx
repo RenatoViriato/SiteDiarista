@@ -21,7 +21,7 @@ const NAV_ITEMS: { id: SectionId; label: string }[] = [
   { id: "contato", label: "Contato" },
 ];
 
-/** Cabeçalho fixo: selo da marca + navegação com filete dourado no hover. */
+/** Cabeçalho fixo com navegação simples e intuitiva (desktop + mobile). */
 export function Header({
   view,
   onGoHome,
@@ -41,13 +41,13 @@ export function Header({
   };
 
   return (
-    <header className="sticky top-0 z-40 border-b border-brand-100/90 bg-white/90 backdrop-blur-md">
-      <div className="mx-auto flex h-20 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
+    <header className="sticky top-0 z-40 border-b border-brand-100/80 bg-white/85 backdrop-blur-md">
+      <div className="mx-auto flex h-16 max-w-6xl items-center justify-between gap-3 px-4 sm:px-6">
         <button
           type="button"
           onClick={onGoHome}
-          className="flex items-center rounded-2xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring/40"
-          aria-label="R&R Casa em Ordem — ir para o início"
+          className="rounded-xl outline-none focus-visible:ring-[3px] focus-visible:ring-ring/50"
+          aria-label="Ir para a página inicial"
         >
           <Brand />
         </button>
@@ -61,7 +61,7 @@ export function Header({
                   <button
                     type="button"
                     onClick={() => handleSectionClick(item.id)}
-                    className="relative rounded-lg px-3 py-2 text-sm font-semibold text-brand-900/70 transition-colors after:absolute after:bottom-0.5 after:left-3 after:right-3 after:h-0.5 after:origin-left after:scale-x-0 after:rounded-full after:bg-gold-400 after:transition-transform after:duration-200 hover:text-brand-900 hover:after:scale-x-100"
+                    className="rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition-colors hover:bg-brand-50 hover:text-brand-700"
                   >
                     {item.label}
                   </button>
@@ -79,7 +79,7 @@ export function Header({
           {view === "home" ? (
             <Button
               onClick={handleBookingClick}
-              className="h-11 rounded-xl px-5 font-bold shadow-md shadow-brand-900/15"
+              className="h-10 rounded-xl px-5 shadow-sm shadow-brand-600/25"
             >
               <CalendarCheck className="size-4" />
               Agendar
@@ -88,7 +88,7 @@ export function Header({
             <Button
               variant="outline"
               onClick={onGoHome}
-              className="h-11 rounded-xl border-brand-200 px-5 font-bold text-brand-700 hover:bg-brand-50 hover:text-brand-800"
+              className="h-10 rounded-xl border-brand-200 px-5 hover:bg-brand-50 hover:text-brand-700"
             >
               Voltar ao início
             </Button>
@@ -98,7 +98,7 @@ export function Header({
         {/* Botão do menu mobile */}
         <button
           type="button"
-          className="grid size-11 place-items-center rounded-xl text-brand-800 transition-colors hover:bg-brand-50 md:hidden"
+          className="grid size-11 place-items-center rounded-xl text-slate-700 transition-colors hover:bg-brand-50 md:hidden"
           onClick={() => setMenuOpen((open) => !open)}
           aria-expanded={menuOpen}
           aria-label={menuOpen ? "Fechar menu" : "Abrir menu"}
@@ -120,7 +120,7 @@ export function Header({
                   <button
                     type="button"
                     onClick={() => handleSectionClick(item.id)}
-                    className="w-full rounded-xl border-l-2 border-transparent px-3 py-3 text-left text-sm font-semibold text-brand-900/80 transition-colors hover:border-gold-400 hover:bg-brand-50 hover:text-brand-900"
+                    className="w-full rounded-xl px-3 py-3 text-left text-sm font-semibold text-slate-700 transition-colors hover:bg-brand-50 hover:text-brand-700"
                   >
                     {item.label}
                   </button>
@@ -130,10 +130,10 @@ export function Header({
               {view === "home" ? (
                 <Button
                   onClick={handleBookingClick}
-                  className="h-12 w-full rounded-xl font-bold"
+                  className="h-11 w-full rounded-xl"
                 >
                   <CalendarCheck className="size-4" />
-                  Agendar uma limpeza
+                  Agendar uma diarista
                 </Button>
               ) : (
                 <Button
@@ -142,7 +142,7 @@ export function Header({
                     setMenuOpen(false);
                     onGoHome();
                   }}
-                  className="h-12 w-full rounded-xl border-brand-200 font-bold"
+                  className="h-11 w-full rounded-xl border-brand-200"
                 >
                   Voltar ao início
                 </Button>

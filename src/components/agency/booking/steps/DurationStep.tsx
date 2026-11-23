@@ -27,15 +27,15 @@ export function DurationStep({
       <Button
         variant="ghost"
         onClick={onBack}
-        className="-ml-2 mb-3 h-9 rounded-lg px-2 font-bold text-brand-700 hover:bg-brand-50 hover:text-brand-900"
+        className="-ml-2 mb-3 h-9 rounded-lg px-2 font-bold text-slate-600 hover:bg-slate-100 hover:text-slate-800"
       >
         <ArrowLeft className="size-4" />
         Trocar serviço
       </Button>
 
-      <h2 className="text-xl font-extrabold tracking-tight text-brand-900 sm:text-2xl">
+      <h2 className="text-xl font-extrabold tracking-tight text-slate-900 sm:text-2xl">
         Por quanto tempo você precisa{" "}
-        <span className="text-gold-700">da {service.name.toLowerCase()}</span>?
+        <span className="text-brand-600">da {service.name.toLowerCase()}</span>?
       </h2>
       <p className="mt-1.5 flex items-center gap-1.5 text-sm text-muted-foreground">
         <Clock className="size-4" />
@@ -60,14 +60,14 @@ export function DurationStep({
               className={cn(
                 "relative flex flex-col rounded-2xl border p-5 text-left transition-all",
                 selected
-                  ? "border-brand-600 bg-brand-50/70 ring-2 ring-gold-200"
-                  : "border-brand-100 bg-white hover:border-gold-300 hover:bg-gold-50/40"
+                  ? "border-brand-500 bg-brand-50/60 ring-2 ring-brand-100"
+                  : "border-slate-200 bg-white hover:border-brand-300 hover:bg-brand-50/40"
               )}
             >
               {selected && (
-                <Check className="absolute right-3.5 top-3.5 size-5 text-gold-500" />
+                <Check className="absolute right-3.5 top-3.5 size-5 text-brand-600" />
               )}
-              <span className="text-base font-extrabold text-brand-900">
+              <span className="text-base font-extrabold text-slate-900">
                 {duration.label}
               </span>
               <span className="mt-1 flex-1 text-xs leading-relaxed text-muted-foreground">

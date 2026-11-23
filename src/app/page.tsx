@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { Header } from "@/components/agency/Header";
 import { Footer } from "@/components/agency/Footer";
 import { Hero } from "@/components/agency/Hero";
@@ -28,8 +28,6 @@ export default function Home() {
   >(null);
   /** Incrementa a cada novo agendamento para reiniciar o fluxo do zero. */
   const [bookingSession, setBookingSession] = useState(0);
-  /** Seção a rolar assim que a home voltar a montar (ex.: sair do agendamento). */
-  const [pendingSection, setPendingSection] = useState<SectionId | null>(null);
 
   const scrollToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: "auto" });
@@ -50,31 +48,22 @@ export default function Home() {
     [scrollToTop]
   );
 
-  const scrollToSection = useCallback((sectionId: SectionId) => {
-    document.getElementById(sectionId)?.scrollIntoView({ behavior: "smooth" });
-  }, []);
-
-  // Rola até a seção somente depois que a home realmente está no DOM
-  // (antes era um setTimeout fixo de 80ms, que falhava em telas lentas).
-  useEffect(() => {
-    if (view !== "home" || !pendingSection) return;
-    const frame = window.requestAnimationFrame(() => {
-      scrollToSection(pendingSection);
-      setPendingSection(null);
-    });
-    return () => window.cancelAnimationFrame(frame);
-  }, [view, pendingSection, scrollToSection]);
-
   const goSection = useCallback(
     (sectionId: SectionId) => {
+      const scrollToSection = () => {
+        document
+          .getElementById(sectionId)
+          ?.scrollIntoView({ behavior: "smooth" });
+      };
       if (view !== "home") {
         setView("home");
-        setPendingSection(sectionId);
-        return;
+        // Aguarda a home montar antes de rolar até a seção
+        window.setTimeout(scrollToSection, 80);
+      } else {
+        scrollToSection();
       }
-      scrollToSection(sectionId);
     },
-    [view, scrollToSection]
+    [view]
   );
 
   return (

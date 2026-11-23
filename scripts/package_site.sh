@@ -57,14 +57,18 @@ zip -qr "$OUT/renata-santos-site-codigo-fonte.zip" \
   src public prisma db .zscripts scripts \
   package.json bun.lock tsconfig.json next.config.ts postcss.config.mjs \
   eslint.config.mjs components.json tailwind.config.ts Caddyfile .env README-SITE.md \
+  vercel.json .vercelignore \
   -x "scripts/shots/*" -x "scripts/next.config.ts.bak" -x "scripts/_api_static_exclude/*" \
   -x "scripts/logo-candidate-a.png" -x ".zscripts/*.log" -x "dev.log" -x "server.log"
 echo "codigo: $(du -h "$OUT/renata-santos-site-codigo-fonte.zip" | cut -f1)"
 
-echo "== [6] ZIP versão estática =="
+echo "== [6] ZIP versão estática (index.html na RAIZ — pronto p/ publicar) =="
 cp "$PROJ/README-SITE.md" out/LEIA-ME.txt
 rm -f "$OUT/renata-santos-site-estatico.zip"
-zip -qr "$OUT/renata-santos-site-estatico.zip" out
+# Zipa o CONTEÚDO de out/ a partir de dentro dela: index.html fica na raiz do zip,
+# requisito das plataformas de publicação (antes ia com prefixo out/ e quebrava).
+cd "$PROJ/out"
+zip -qr "$OUT/renata-santos-site-estatico.zip" .
 echo "estatico: $(du -h "$OUT/renata-santos-site-estatico.zip" | cut -f1)"
 
 echo "== CONCLUÍDO =="
