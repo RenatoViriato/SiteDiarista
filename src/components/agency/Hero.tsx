@@ -99,7 +99,7 @@ export function Hero({ onGoBooking, onGoServices }: HeroProps) {
             </li>
             <li className="flex items-center gap-1.5">
               <CheckCircle2 className="size-4 text-brand-600" />
-              +2.500 atendimentos
+              + de 1.000 atendimentos
             </li>
             <li className="flex items-center gap-1.5">
               <ShieldCheck className="size-4 text-brand-600" />
