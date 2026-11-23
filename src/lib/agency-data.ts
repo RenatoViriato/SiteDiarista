@@ -128,6 +128,8 @@ export const SERVICES: Service[] = [
       "Higienização profunda contra gordura, mofo e acúmulo em cantos difíceis.",
     icon: SprayCan,
     startingPrice: 240,
+    image: "/limpeza-pesada.png",
+    imageAlt: "Profissional usando luvas para limpar uma superfície durante uma limpeza pesada",
     durations: [
       {
         id: "pes-6h",
@@ -156,6 +158,8 @@ export const SERVICES: Service[] = [
       "Remoção de poeira fina, resíduos e detritos após reformas e obras.",
     icon: HardHat,
     startingPrice: 380,
+    image: "/limpeza-pos-obra.png",
+    imageAlt: "Profissional varrendo resíduos em um imóvel após uma obra",
     durations: [
       {
         id: "obra-6h",
@@ -184,6 +188,8 @@ export const SERVICES: Service[] = [
       "Rotina de limpeza ideal para apartamentos, compacta e eficiente.",
     icon: Building2,
     startingPrice: 180,
+    image: "/limpeza-apartamento.png",
+    imageAlt: "Profissional limpando a mesa de uma sala de apartamento",
     durations: [
       {
         id: "apt-4h",
@@ -212,6 +218,8 @@ export const SERVICES: Service[] = [
       "Ambientes de trabalho limpos e organizados para equipe e clientes.",
     icon: Briefcase,
     startingPrice: 190,
+    image: "/limpeza-escritorio.png",
+    imageAlt: "Profissional com materiais de limpeza em um escritório",
     durations: [
       {
         id: "esc-4h",
@@ -240,6 +248,8 @@ export const SERVICES: Service[] = [
       "Roupas passadas com cuidado, do uso diário às peças especiais.",
     icon: Shirt,
     startingPrice: 90,
+    image: "/passadoria-roupas.png",
+    imageAlt: "Roupa sendo passada a ferro ao lado de toalhas dobradas",
     durations: [
       {
         id: "pas-2h",
